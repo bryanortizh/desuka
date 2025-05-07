@@ -18,17 +18,19 @@ export class LodashComponent implements OnInit {
 
   startLodash() {
     const lodashUser = localStorage.getItem('lodashUser');
+    console.log('Vuelve a iniciar :');
+    const user = lodashUser ? JSON.parse(lodashUser) : null;
 
-    if (lodashUser) {
-      const user = JSON.parse(lodashUser);
+    if (user) {
       this.navigate.navigate(['/auth/login']);
 
       console.log('Lodash User:', user);
     } else {
+      console.log('No Lodash User found, redirecting to login...');
       localStorage.setItem('lodashUser', 'true');
-      setInterval(() => {
+      setTimeout(() => {
         this.navigate.navigate(['/auth/login']);
-      }, TimeOut.SHORT);
+      }, TimeOut.LONG);
     }
   }
 }

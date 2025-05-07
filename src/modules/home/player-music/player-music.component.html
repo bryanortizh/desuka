@@ -24,4 +24,9 @@
     </button>
     <button class="small" (click)="nextTrack()"><i class="material-icons">{{skipNextIcon}}</i></button>
   </div>
+
+  <div class="share-like">
+    <button class="small" (click)="toggleLike()"><i class="material-icons">{{ isLiked ? 'favorite' : 'favorite_border' }}</i></button>
+    <button class="small" (click)="shareTrack()"><i class="material-icons">share</i></button>
+  </div>
 </div>

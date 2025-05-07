@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Share } from '@capacitor/share';
 import { Icons } from 'src/core/enum/icons.enum';
 import { Track } from 'src/core/interface/tracker.interface';
 import { ImageService } from 'src/services/imageBg.service';
@@ -15,6 +16,7 @@ export class PlayerMusicComponent implements OnInit, OnDestroy {
   skipPreviousIcon = Icons.skipPrevious;
   playIcon = Icons.playArrow;
   pauseIcon = Icons.pause;
+  isLiked = Icons.coffee;
   gradientStyle: string = '';
   audio = new Audio();
   isPlaying = false;
@@ -62,6 +64,7 @@ export class PlayerMusicComponent implements OnInit, OnDestroy {
     this.audio.src = this.currentTrack.src;
     this.audio.load();
     if (this.isPlaying) this.audio.play();
+    this.updateMediaSession();
   }
 
   togglePlay() {
@@ -98,6 +101,40 @@ export class PlayerMusicComponent implements OnInit, OnDestroy {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+  }
+  toggleLike() {
+  }
+
+  async shareTrack() {
+    await Share.share({
+      title: 'DesukaApp Lofi Song Radio',
+      text: `Escucha a ${this.currentTrack.title} - ${this.currentTrack.artist} y unete a la comunidad de DesukaApp`,
+      dialogTitle: 'Compartir canción',
+      url: 'https://vm.tiktok.com/ZMBohYqv2/',
+    });
+  }
+
+  updateMediaSession() {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: this.currentTrack.title,
+        artist: this.currentTrack.artist,
+        album: 'DesukaApp Lofi Radio',
+        artwork: [
+          { src: this.currentTrack.cover, sizes: '96x96', type: 'image/png' },
+          { src: this.currentTrack.cover, sizes: '128x128', type: 'image/png' },
+          { src: this.currentTrack.cover, sizes: '192x192', type: 'image/png' },
+          { src: this.currentTrack.cover, sizes: '256x256', type: 'image/png' },
+          { src: this.currentTrack.cover, sizes: '384x384', type: 'image/png' },
+          { src: this.currentTrack.cover, sizes: '512x512', type: 'image/png' },
+        ],
+      });
+  
+      navigator.mediaSession.setActionHandler('play', () => this.togglePlay());
+      navigator.mediaSession.setActionHandler('pause', () => this.togglePlay());
+      navigator.mediaSession.setActionHandler('previoustrack', () => this.previousTrack());
+      navigator.mediaSession.setActionHandler('nexttrack', () => this.nextTrack());
+    }
   }
 
   get currentTrack(): Track {

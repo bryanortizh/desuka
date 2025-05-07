@@ -6,10 +6,10 @@ import { RegisterComponent } from './register/register.component';
 
 
 const routes: Routes = [
+    { path: '', component: LodashComponent },
     { path: 'login', component: LoginComponent },
-    { path: 'lodash', component: LodashComponent },
     { path: 'register', component: RegisterComponent},
-    { path: '', redirectTo: 'lodash', pathMatch: 'full' },
+    { path: '', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({

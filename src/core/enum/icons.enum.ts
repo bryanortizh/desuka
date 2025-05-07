@@ -3,4 +3,5 @@ export enum Icons {
     skipPrevious = 'skip_previous',
     playArrow = 'play_arrow',
     pause = 'pause',
+    coffee = 'coffee',
 }

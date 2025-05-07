@@ -4,8 +4,8 @@ import { PlayerMusicComponent } from './home/player-music/player-music.component
 
 
 const routes: Routes = [
-    { path: '', component: PlayerMusicComponent },
-    { path: '', redirectTo: '', pathMatch: 'full' },
+    { path: 'player', component: PlayerMusicComponent },
+    { path: '', redirectTo: 'player', pathMatch: 'full' },
 ];
 
 @NgModule({
