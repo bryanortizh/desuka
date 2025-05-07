@@ -1,0 +1,7 @@
+{
+  "name": "Desuka",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

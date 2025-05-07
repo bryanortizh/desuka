@@ -1,0 +1,28 @@
+<div class="music-player">
+  <div class="header">
+    <span>SONG RADIO BASED ON</span>
+    <strong>Lofi Japan</strong>
+  </div>
+
+  <img [src]="currentTrack.cover" alt="Cover Art" class="cover" />
+
+  <div class="track-info">
+    <h2>{{ currentTrack.title }}</h2>
+    <p>{{ currentTrack.artist }}</p>
+  </div>
+
+  <div class="progress-bar">
+    <input type="range" [value]="currentTime" [max]="duration" class="range-slider"   [style.background]="getSliderBackground()" (input)="onSeek($event)" />
+    <span class="time-info">{{ formatTime(currentTime) }}</span><br>
+  </div>
+
+
+
+  <div class="controls">
+    <button class="small" (click)="previousTrack()"><i class="material-icons">{{skipPreviousIcon}}</i></button>
+    <button (click)="togglePlay()">
+      <i class="material-icons">{{ isPlaying ? pauseIcon : playIcon }}</i>
+    </button>
+    <button class="small" (click)="nextTrack()"><i class="material-icons">{{skipNextIcon}}</i></button>
+  </div>
+</div>

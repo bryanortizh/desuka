@@ -1,0 +1,111 @@
+.music-player {
+  background: linear-gradient(to top, #3d1f1f, #9b3922);
+  color: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  max-width: 350px;
+  margin: auto;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+
+  .header {
+    font-size: 12px;
+    color: #f3c5c5;
+
+    strong {
+      display: block;
+      font-weight: bold;
+      color: #fff;
+    }
+  }
+
+  .cover {
+    width: 100%;
+    border-radius: 10px;
+    margin: 15px 0;
+  }
+
+  .track-info {
+    h2 {
+      margin: 5px 0;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      color: #ddd;
+    }
+  }
+
+  .progress-bar {
+    margin: 1rem auto;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+
+    .range-slider {
+      width: 100%;
+      height: 2px;
+      border-radius: 2px;
+      appearance: none;
+      cursor: pointer;
+      background: transparent;
+
+      &::-webkit-slider-thumb {
+        appearance: none;
+        height: 8px;
+        width: 8px;
+        border-radius: 50%;
+        background: white;
+        margin-top: 1px;
+      }
+
+      &::-moz-range-thumb {
+        height: 14px;
+        width: 14px;
+        border-radius: 50%;
+        background: white;
+        border: 2px solid #2196F3;
+      }
+
+      &::-webkit-slider-runnable-track,
+      &::-moz-range-track {
+        height: 4px;
+        border-radius: 2px;
+        background: transparent !important;
+      }
+    }
+    .time-info{
+      font-size: 9px;
+      margin-top: 4px;
+    }
+  }
+
+  .controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+
+    button {
+      background: none;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      font-size: 28px;
+
+      &.small {
+        font-size: 20px;
+      }
+
+      &:hover {
+        color: #ffdddd;
+      }
+    }
+  }
+
+
+}

@@ -1,0 +1,16 @@
+.background-gradiant {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: start;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #0b0c39 0%, #000000 100%);
+    padding: 20px;
+    color: white;
+}
+
+.title-access {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
