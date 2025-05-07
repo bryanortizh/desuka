@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Icons } from 'src/core/enum/icons.enum';
 import { Track } from 'src/core/interface/tracker.interface';
+import { ImageService } from 'src/services/imageBg.service';
 
 @Component({
   selector: 'app-player-music',
@@ -14,11 +15,12 @@ export class PlayerMusicComponent implements OnInit, OnDestroy {
   skipPreviousIcon = Icons.skipPrevious;
   playIcon = Icons.playArrow;
   pauseIcon = Icons.pause;
-
+  gradientStyle: string = '';
   audio = new Audio();
   isPlaying = false;
   currentTime = 0;
   duration = 0;
+  currentTrackIndex = 0;
 
   playlist: Track[] = [
     {
@@ -31,15 +33,11 @@ export class PlayerMusicComponent implements OnInit, OnDestroy {
       title: 'Evening Vibes',
       artist: 'Lofigirl',
       src: 'assets/music/test2.mp3',
-      cover: 'assets/img/test2.png'
+      cover: 'assets/img/test3.png'
     },
   ];
 
-  currentTrackIndex = 0;
-
-  get currentTrack(): Track {
-    return this.playlist[this.currentTrackIndex];
-  }
+  constructor(public imageService: ImageService) { }
 
   ngOnInit() {
     this.loadTrack();
@@ -58,6 +56,9 @@ export class PlayerMusicComponent implements OnInit, OnDestroy {
   }
 
   loadTrack() {
+    this.imageService.getDominantColorsFromImage(this.currentTrack.cover).then((gradient) => {
+      this.gradientStyle = gradient;
+    });
     this.audio.src = this.currentTrack.src;
     this.audio.load();
     if (this.isPlaying) this.audio.play();
@@ -99,8 +100,7 @@ export class PlayerMusicComponent implements OnInit, OnDestroy {
     return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
   }
 
-  getSliderBackground(): string {
-    const percentage = (this.currentTime / this.duration) * 100 || 0;
-    return `linear-gradient(to right, #FFFFFF 0%, #FFFFFF ${percentage}%, #ccc ${percentage}%, #ccc 100%)`;
+  get currentTrack(): Track {
+    return this.playlist[this.currentTrackIndex];
   }
 }

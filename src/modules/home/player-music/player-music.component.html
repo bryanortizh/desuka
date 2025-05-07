@@ -1,4 +1,4 @@
-<div class="music-player">
+<div class="music-player" [ngStyle]="{ background: gradientStyle }">
   <div class="header">
     <span>SONG RADIO BASED ON</span>
     <strong>Lofi Japan</strong>
@@ -12,11 +12,10 @@
   </div>
 
   <div class="progress-bar">
-    <input type="range" [value]="currentTime" [max]="duration" class="range-slider"   [style.background]="getSliderBackground()" (input)="onSeek($event)" />
+    <input type="range" [value]="currentTime" [max]="duration" class="range-slider"
+      [style.background]="imageService.getSliderBackground(currentTime,duration)" (input)="onSeek($event)" />
     <span class="time-info">{{ formatTime(currentTime) }}</span><br>
   </div>
-
-
 
   <div class="controls">
     <button class="small" (click)="previousTrack()"><i class="material-icons">{{skipPreviousIcon}}</i></button>
