@@ -1,0 +1,10 @@
+<div class="gradient-background">
+  <h1 class="title-access">Desuka App</h1>
+
+    <div class="mt-5 search-bar" [formGroup]="searchForm">
+      <img  src="../../../assets/icon/search.svg" width="30px" height="30px" alt="search" (click)="searchMusic()" />
+      <input type="text" formControlName="search" placeholder="Buscar canciones, artistas o álbumes" />
+      <img  src="../../../assets/icon/microphone.svg" width="30px" height="30px" alt="microphone" (click)="openVoiceSearch()" />
+    </div>
+
+</div>

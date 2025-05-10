@@ -30,7 +30,7 @@ export class LodashComponent implements OnInit {
       localStorage.setItem('lodashUser', 'true');
       setTimeout(() => {
         this.navigate.navigate(['/auth/login']);
-      }, TimeOut.LONG);
+      }, TimeOut.SHORT);
     }
   }
 }

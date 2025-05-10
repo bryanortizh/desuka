@@ -11,7 +11,7 @@ export class LoginComponent {
     constructor(private navigate: Router) {}
 
     handleGuestPress () {
-        this.navigate.navigate(['/home/player']);
+        this.navigate.navigate(['/home/list']);
     }
     
     handleGooglePress(){}

@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 ### Added
 -Services for get color image cover music.
 -Add capacitor Share for Android.
+-Add capacitor control bar music notification.
+-Add capacitor file pluggin for music File://.
+
+### Components
+-Add Home List music v1.0.
 
 
 ## [1.0.0] - 2025-05-07
