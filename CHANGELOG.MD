@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 -Add capacitor Share for Android.
 -Add capacitor control bar music notification.
 -Add capacitor file pluggin for music File://.
+-Add capacitor voice speech recognition for search box.
 
 ### Components
 -Add Home List music v1.0.
