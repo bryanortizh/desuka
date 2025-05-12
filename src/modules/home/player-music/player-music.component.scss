@@ -1,11 +1,9 @@
 .music-player {
   color: #fff;
   padding: 20px;
-  border-radius: 20px;
-  max-width: 350px;
-  margin: auto;
   font-family: 'Segoe UI', sans-serif;
   text-align: center;
+  height: 100dvh;
 
   .header {
     font-size: 12px;
@@ -44,11 +42,12 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    padding: 10px 0px 0px 0px;
 
 
     .range-slider {
       width: 100%;
-      height: 2px;
+      height: 4px;
       border-radius: 2px;
       appearance: none;
       cursor: pointer;
@@ -60,7 +59,7 @@
         width: 8px;
         border-radius: 50%;
         background: white;
-        margin-top: 1px;
+        margin-top: -1px;
       }
 
       &::-moz-range-thumb {
@@ -78,7 +77,8 @@
         background: transparent !important;
       }
     }
-    .time-info{
+
+    .time-info {
       font-size: 9px;
       margin-top: 4px;
     }
@@ -86,8 +86,36 @@
 
   .controls {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     gap: 15px;
+
+    i {
+      font-size: 35px;
+    }
+
+    button {
+      background: none;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      font-size: 40px;
+
+      &.small {
+        font-size: 20px;
+      }
+
+      &:hover {
+        color: #ffdddd;
+      }
+    }
+
+  }
+
+  .share-like {
+    display: flex;
+    justify-content: space-around;
+    gap: 15px;
+    margin-top: 10px;
 
     button {
       background: none;

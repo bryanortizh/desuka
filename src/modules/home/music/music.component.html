@@ -1,3 +1,19 @@
-<p>
-  music works!
-</p>
+<div class="music-player" (click)="presenter.openModal()">
+  <div class="song-info">
+    <img src="../../../assets/img/test.png" alt="Cover" class="cover" />
+    <div>
+      <div class="title">Chrono</div>
+      <div class="artist">Monma</div>
+    </div>
+  </div>
+  <div class="controls">
+    <button class="btn" (click)="presenter.toggleLike($event)">
+      <i class="material-icons">{{isLikedIcon}}
+      </i>
+    </button>
+    <button class="btn" (click)="presenter.togglePlay($event)">
+      <i class="material-icons">{{playIcon}}
+      </i>
+    </button>
+  </div>
+</div>

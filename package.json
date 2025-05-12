@@ -1,6 +1,6 @@
 {
   "name": "desuka",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Bryan Ortiz",
   "homepage": "https://ionicframework.com/",
   "scripts": {
@@ -34,6 +34,7 @@
     "capacitor-music-controls-plugin": "^6.1.0",
     "ionicons": "^7.0.0",
     "rxjs": "~7.8.0",
+    "swiper": "^11.2.6",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },

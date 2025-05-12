@@ -1,15 +1,24 @@
 import { Component, OnInit } from '@angular/core';
+import { Icons } from 'src/core/enum/icons.enum';
+import { MusicPresenterComponent } from './music.presenter.component';
 
 @Component({
   selector: 'app-music',
   templateUrl: './music.component.html',
   styleUrls: ['./music.component.scss'],
+  providers: [MusicPresenterComponent],
   standalone: false,
 })
 export class MusicComponent  implements OnInit {
 
-  constructor() { }
+  isLikedIcon = Icons.coffee;
+  playIcon = Icons.playArrow;
+  pauseIcon = Icons.pause;
 
-  ngOnInit() {}
+  constructor(public presenter: MusicPresenterComponent) { }
 
+  ngOnInit() {
+
+  }
+ 
 }
