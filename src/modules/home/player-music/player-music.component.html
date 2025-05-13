@@ -1,4 +1,7 @@
-<div class="music-player" [ngStyle]="{ background: presenter.gradientStyle }">
+  <div class="music-player" [ngStyle]="{ background: presenter.gradientStyle }" *ngIf="playlist.length > 0">
+  <div>
+    <i class="material-icons" (click)="presenter.minimizeMusic()">close</i>
+  </div>
   <div class="header">
     <span>SONG RADIO BASED ON</span>
     <strong>Lofi Japan</strong>

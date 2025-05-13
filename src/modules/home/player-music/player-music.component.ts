@@ -1,5 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { PlayerMusicPresenterComponent } from './player-music.presenter.component';
+import { Track } from 'src/core/interface/tracker.interface';
+import { CapacitorFunctionService } from 'src/services/capacitorFunction.service';
+import { FunctionPlayerService } from 'src/services/functionPlayer.service';
 
 @Component({
   selector: 'app-player-music',
@@ -9,12 +12,14 @@ import { PlayerMusicPresenterComponent } from './player-music.presenter.componen
   standalone: false,
 })
 export class PlayerMusicComponent implements OnInit, OnDestroy {
+  @Input() playlist: Track[] = [];
 
-  constructor(public presenter: PlayerMusicPresenterComponent) { }
+  constructor(public presenter: PlayerMusicPresenterComponent, private functionService: FunctionPlayerService) {
+  }
+
   ngOnInit(): void {
-    console.log("this.presenter.audio",this.presenter.audio)
-    this.presenter.loadTrack();
-
+    this.presenter.loadTrack(this.playlist);
+    this.functionService.setCurrentTrack(this.presenter);
     this.presenter.audio.addEventListener('loadedmetadata', () => {
       this.presenter.duration = this.presenter.audio.duration;
     });

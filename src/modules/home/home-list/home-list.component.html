@@ -7,27 +7,21 @@
     <img [src]="iconSVGMicrophone" width="30px" height="30px" alt="microphone" (click)="openVoiceSearch()" />
   </div>
 
-
-  
-
   <div class="section-list">
     <h1 class="title">Música destacada para ti</h1>
 
-    <swiper-container [slidesPerView]="1" [loop]="true">
-      <swiper-slide>Slide 1</swiper-slide>
-      <swiper-slide>Slide 2</swiper-slide>
-      <swiper-slide>Slide 3</swiper-slide>
-      <swiper-slide>Slide 3</swiper-slide>
-      <swiper-slide>Slide 3</swiper-slide>
-      <swiper-slide>Slide 3</swiper-slide>
-      <swiper-slide>Slide 3</swiper-slide>
-      <swiper-slide>Slide 3</swiper-slide>
-      <swiper-slide>Slide 3</swiper-slide>
+    <ion-button expand="block" (click)="presenter.sendTrackPlayer()">Haga click</ion-button>
+    <ion-button expand="block" (click)="presenter.sendTrackPlayer2()">Haga click2</ion-button>
 
-    </swiper-container>
-    
   </div>
 
 </div>
 
-<app-music></app-music>
+<app-music  *ngIf="presenter.showCompleteMusic && presenter.playlist.length !== 0 && presenter.statusPlayer === 'minimized'"></app-music>
+
+<ion-modal *ngIf="presenter.showCompleteMusic" [keepContentsMounted]="true" trigger="open-modal" #modal
+  (willDismiss)="presenter.closeMusicComplete($event)">
+  <ng-template>
+    <app-player-music [playlist]="presenter.playlist"></app-player-music>
+  </ng-template>
+</ion-modal>

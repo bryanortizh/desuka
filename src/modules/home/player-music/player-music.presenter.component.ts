@@ -1,7 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { Directory, Filesystem } from '@capacitor/filesystem';
-import { Share } from '@capacitor/share';
-import { CapacitorMusicControls } from 'capacitor-music-controls-plugin';
+import { ModalController } from '@ionic/angular';
 import { Icons } from 'src/core/enum/icons.enum';
 import { IconsSVG } from 'src/core/enum/images-svg.enum';
 import { Track } from 'src/core/interface/tracker.interface';
@@ -16,6 +14,8 @@ import { ImageService } from 'src/services/imageBg.service';
 })
 export class PlayerMusicPresenterComponent {
 
+    playlist: Track[] = [];
+    modalCtrl!: ModalController
     skipNextIcon = Icons.skipNext;
     skipPreviousIcon = Icons.skipPrevious;
     playIcon = IconsSVG.playSVG;
@@ -29,24 +29,11 @@ export class PlayerMusicPresenterComponent {
     duration = 0;
     currentTrackIndex = 0;
 
-    playlist: Track[] = [
-        {
-            title: 'Chrono',
-            artist: 'Monma',
-            src: 'assets/music/test.mp3',
-            cover: 'assets/img/test.png'
-        },
-        {
-            title: 'Evening Vibes',
-            artist: 'Lofigirl',
-            src: 'assets/music/test2.mp3',
-            cover: 'assets/img/test3.png'
-        },
-    ];
+    constructor(public imageService: ImageService, public capacitorService: CapacitorFunctionService) {
+    }
 
-    constructor(public imageService: ImageService, public capacitorService: CapacitorFunctionService) { }
-
-    async loadTrack() {
+    async loadTrack(playlist: Track[]) {
+        this.playlist = playlist;
         const fileUrl = await this.capacitorService.getFileUrl(this.currentTrack.cover);
 
         this.imageService.getDominantColorsFromImage(this.currentTrack.cover).then((gradient) => {
@@ -75,14 +62,14 @@ export class PlayerMusicPresenterComponent {
     nextTrack() {
         this.currentTrackIndex = (this.currentTrackIndex + 1) % this.playlist.length;
         this.capacitorService.barNotificationMusic(this.currentTrack);
-        this.loadTrack();
+        this.loadTrack(this.playlist);
     }
 
     previousTrack() {
         this.currentTrackIndex =
             (this.currentTrackIndex - 1 + this.playlist.length) % this.playlist.length;
         this.capacitorService.barNotificationMusic(this.currentTrack);
-        this.loadTrack();
+        this.loadTrack(this.playlist);
     }
 
 
@@ -93,6 +80,13 @@ export class PlayerMusicPresenterComponent {
         return `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
     }
     toggleLike() {
+    }
+
+    minimizeMusic() {
+        var modalMusic = document.querySelector('ion-modal');
+        if (modalMusic) {
+            modalMusic.dismiss();
+        } 
     }
 
     get currentTrack(): Track {
