@@ -1,5 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { CapacitorMusicControls } from 'capacitor-music-controls-plugin';
 import { Icons } from 'src/core/enum/icons.enum';
 import { IconsSVG } from 'src/core/enum/images-svg.enum';
 import { Track } from 'src/core/interface/tracker.interface';
@@ -32,15 +33,76 @@ export class PlayerMusicPresenterComponent {
     constructor(public imageService: ImageService, public capacitorService: CapacitorFunctionService) {
     }
 
+    ngAfterViewInit() {
+        CapacitorMusicControls.addListener('controlsNotification', (info: any) => {
+            console.log('listener', info.message);
+            this.handleControlsEvent(info);
+        });
+    }
+
+
+    handleControlsEvent(action:any) {
+        const message = action.message;
+    
+        console.log("message: " + message)
+    
+        switch (message) {
+            case 'music-controls-next':
+                //do something           
+                console.log('Next track');    
+                break;
+            case 'music-controls-previous':
+                //do something
+                console.log('Previous track');
+                break;
+            case 'music-controls-pause':
+                this.isPlaying = false;
+                break;
+            case 'music-controls-play':
+    
+                this.isPlaying = true;
+                break;
+            case 'music-controls-destroy':
+                CapacitorMusicControls.destroy();
+                console.log('destroyed', message);
+                break;
+            // External controls (iOS only)
+            case 'music-controls-toggle-play-pause':
+                // do something
+                break;
+            case 'music-controls-seek-to':
+                // do something
+                break;
+            case 'music-controls-skip-forward':
+                // Do something
+                break;
+            case 'music-controls-skip-backward':
+                // Do something
+                break;
+            // Headset events (Android only)
+            // All media button events are listed below
+            case 'music-controls-media-button':
+                this.togglePlay();
+                break;
+            case 'music-controls-headset-unplugged':
+                // Do something
+                break;
+            case 'music-controls-headset-plugged':
+                this.togglePlay();
+                break;
+            default:
+                break;
+        }
+    }
+
     async loadTrack(playlist: Track[]) {
         this.playlist = playlist;
-        const fileUrl = await this.capacitorService.getFileUrl(this.currentTrack.cover);
-
         this.imageService.getDominantColorsFromImage(this.currentTrack.cover).then((gradient) => {
             this.gradientStyle = gradient;
             this.audio.src = this.currentTrack.src;
             this.audio.load();
             this.isPlaying = true
+            this.capacitorService.barNotificationMusic(this.currentTrack);
             if (this.isPlaying) this.audio.play()
         });
     }
@@ -52,7 +114,7 @@ export class PlayerMusicPresenterComponent {
             this.audio.play();
         }
         this.isPlaying = !this.isPlaying;
-        this.capacitorService.barNotificationMusic(this.currentTrack);
+       
     }
 
     onSeek(event: any) {
@@ -60,12 +122,14 @@ export class PlayerMusicPresenterComponent {
     }
 
     nextTrack() {
+        this.audio.src = '';
         this.currentTrackIndex = (this.currentTrackIndex + 1) % this.playlist.length;
         this.capacitorService.barNotificationMusic(this.currentTrack);
         this.loadTrack(this.playlist);
     }
 
     previousTrack() {
+        this.audio.src = '';
         this.currentTrackIndex =
             (this.currentTrackIndex - 1 + this.playlist.length) % this.playlist.length;
         this.capacitorService.barNotificationMusic(this.currentTrack);

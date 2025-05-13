@@ -94,4 +94,13 @@ export class HomeListPresenterComponent implements OnInit {
     closeMusicComplete(event: Event) {
         this.statusPlayer = statusPlayer.MINIMIZED;
     }
+
+    filterPlaylist(event: Event) {
+        const input = event.target as HTMLInputElement;
+        const value = input.value.toLowerCase();
+        this.playlist = this.playlist.filter((track) => {
+            return track.title.toLowerCase().includes(value) || track.artist.toLowerCase().includes(value);
+        });
+        this.cdr.detectChanges();
+    }
 }

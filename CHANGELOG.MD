@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 ### Add
 -List Music desing v1.1 
 -Bar minimized music ready with service and function control and colors
-
+-Add capacitor notification bar separator
 
 ## [1.0.1] - 2025-05-07
 ### Added

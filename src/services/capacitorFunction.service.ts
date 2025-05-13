@@ -8,9 +8,47 @@ import { Track } from 'src/core/interface/tracker.interface';
     providedIn: 'root',
 })
 export class CapacitorFunctionService {
-    constructor() { }
 
-    async getFileUrl(relativePath: string): Promise<string> {
+    async setupMusicControls(
+        onPlay: () => void,
+        onPause: () => void,
+        onNext: () => void,
+        onPrevious: () => void
+      ) {
+        CapacitorMusicControls.addListener('music-controls-play', () => {
+          console.log('Play button pressed');
+          onPlay();
+        });
+      
+        CapacitorMusicControls.addListener('music-controls-pause', () => {
+          console.log('Pause button pressed');
+          onPause();
+        });
+      
+        CapacitorMusicControls.addListener('music-controls-next', () => {
+          console.log('Next button pressed');
+          onNext();
+        });
+      
+        CapacitorMusicControls.addListener('music-controls-previous', () => {
+          console.log('Previous button pressed');
+          onPrevious();
+        });
+      
+        CapacitorMusicControls.addListener('music-controls-destroy', () => {
+          console.log('Music controls destroyed');
+        });
+      }
+
+
+    async saveAndGetFileUrl(relativePath: string, imageData: string): Promise<string> {
+        await Filesystem.writeFile({
+            path: relativePath,
+            data: imageData,
+            directory: Directory.Cache,
+            recursive: true,
+        });
+
         const filePath = await Filesystem.getUri({
             path: relativePath,
             directory: Directory.Cache,
@@ -19,20 +57,48 @@ export class CapacitorFunctionService {
         return filePath.uri;
     }
 
+    async convertImageToBase64(imageUrl: string): Promise<string> {
+        const response = await fetch(imageUrl);
+        const blob = await response.blob();
+
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+        });
+    }
+
     async barNotificationMusic(currentTrack: Track) {
+        const relativePath = `images/${currentTrack.title.replace(/\s+/g, '_')}.png`;
+        const imageData = await this.convertImageToBase64(currentTrack.cover);
+        const coverUri = await this.saveAndGetFileUrl(relativePath, imageData);
+        const fileExists = await Filesystem.stat({
+            path: relativePath,
+            directory: Directory.Cache,
+        }).catch(() => null);
+
+        if (!fileExists) {
+            console.error('El archivo no se guardó correctamente.');
+            return;
+        }
+
         CapacitorMusicControls.create({
             track: currentTrack.title,
             artist: currentTrack.artist,
             album: currentTrack.title,
-            cover: 'https://img001.prntscr.com/file/img001/zvUpJWbnQJOb39O8dLKCgg.png',
-            hasPrev: false,
-            hasNext: false,
+            cover: coverUri,
+            hasPrev: true,
+            hasNext: true,
             hasClose: true,
             hasScrubbing: true,
             isPlaying: true,
             dismissable: true,
             playIcon: "media_play",
             pauseIcon: "media_pause",
+            nextIcon: "media_next",
+            prevIcon: "media_prev",
+            duration: 122,
             closeIcon: "media_close",
             notificationIcon: "notification",
         })
@@ -43,11 +109,34 @@ export class CapacitorFunctionService {
     }
 
     async shareTrack(currentTrack: Track) {
+       try {
+        const relativePath = `images/${currentTrack.title.replace(/\s+/g, '_')}.png`;
+
+        const imageData = await this.convertImageToBase64(currentTrack.cover);
+
+        const coverUri = await this.saveAndGetFileUrl(relativePath, imageData);
+
+        const fileExists = await Filesystem.stat({
+            path: relativePath,
+            directory: Directory.Cache,
+        }).catch(() => null);
+
+        if (!fileExists) {
+            console.error('El archivo no se guardó correctamente.');
+            return;
+        }
+
         await Share.share({
             title: 'DesukaApp Lofi Song Radio',
-            text: `Escucha a ${currentTrack.title} - ${currentTrack.artist} y unete a la comunidad de DesukaApp`,
+            text: `Escucha a ${currentTrack.title} - ${currentTrack.artist} y únete a la comunidad de DesukaApp`,
             dialogTitle: 'Compartir canción',
+            files: [coverUri], 
             url: 'https://vm.tiktok.com/ZMBohYqv2/',
         });
+
+        console.log('Archivo compartido con éxito');
+    } catch (error) {
+        console.error('Error al compartir el archivo:', error);
+    }
     }
 }
