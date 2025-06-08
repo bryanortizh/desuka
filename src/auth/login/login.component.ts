@@ -14,5 +14,5 @@ export class LoginComponent {
         this.navigate.navigate(['/home/list']);
     }
     
-    handleGooglePress(){}
+    handleLoginEmail(){}
 }

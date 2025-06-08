@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Device } from '@capacitor/device';
 import { StatusBar } from '@capacitor/status-bar';
 
 @Component({
@@ -9,6 +10,14 @@ import { StatusBar } from '@capacitor/status-bar';
 })
 export class AppComponent {
   constructor() {
-    StatusBar.setOverlaysWebView({ overlay: true });
+    StatusBar.setOverlaysWebView({ overlay: false });
+    this.getDeviceInfo();
   }
+  async getDeviceInfo() {
+    const info = await Device.getInfo();
+    const DeviceId = await Device.getId();
+    console.log(info);
+    console.log(DeviceId);
+  }
+
 }
