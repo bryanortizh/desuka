@@ -1,15 +1,14 @@
 <div class="music-player" id="open-modal" *ngIf="this.functionPlayer.getCurrentTrack() as currentTrackInfo" [ngStyle]="{ background: currentTrackInfo.gradientStyle }">
   <div class="song-info">
-    <img [src]="currentTrackInfo.currentTrack.cover" alt="Cover" class="cover" />
+    <img [src]="currentTrackInfo.currentTrack.coverImage" alt="Cover" class="cover" />
     <div>
       <div class="title">{{currentTrackInfo['currentTrack'].title}}</div>
       <div class="artist">{{currentTrackInfo['currentTrack'].artist}}</div>
     </div>
   </div>
   <div class="controls">
-    <button class="btn" (click)="presenter.toggleLike($event)">
-      <i class="material-icons">{{isLikedIcon}}
-      </i>
+    <button class="btn" (click)="stopFunctionPlayer($event); currentTrackInfo.changeLikeMusicbyId(currentTrackInfo.currentTrack.id)" *ngIf="currentTrackInfo.isLikedIcon">
+      <img [src]="currentTrackInfo.isLikedIcon" width="35px" height="35px" alt="like" />
     </button>
     <button (click)="stopFunctionPlayer($event); currentTrackInfo.togglePlay()">
       <img [src]="currentTrackInfo.isPlaying ? currentTrackInfo.pauseIcon : currentTrackInfo.playIcon" alt="plays" width="50px"

@@ -16,8 +16,6 @@ export class AppComponent {
   async getDeviceInfo() {
     const info = await Device.getInfo();
     const DeviceId = await Device.getId();
-    console.log(info);
-    console.log(DeviceId);
   }
 
 }

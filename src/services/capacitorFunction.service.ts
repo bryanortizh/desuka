@@ -16,27 +16,22 @@ export class CapacitorFunctionService {
         onPrevious: () => void
       ) {
         CapacitorMusicControls.addListener('music-controls-play', () => {
-          console.log('Play button pressed');
           onPlay();
         });
       
         CapacitorMusicControls.addListener('music-controls-pause', () => {
-          console.log('Pause button pressed');
           onPause();
         });
       
         CapacitorMusicControls.addListener('music-controls-next', () => {
-          console.log('Next button pressed');
           onNext();
         });
       
         CapacitorMusicControls.addListener('music-controls-previous', () => {
-          console.log('Previous button pressed');
           onPrevious();
         });
       
         CapacitorMusicControls.addListener('music-controls-destroy', () => {
-          console.log('Music controls destroyed');
         });
       }
 
@@ -71,7 +66,7 @@ export class CapacitorFunctionService {
 
     async barNotificationMusic(currentTrack: Track) {
         const relativePath = `images/${currentTrack.title.replace(/\s+/g, '_')}.png`;
-        const imageData = await this.convertImageToBase64(currentTrack.cover);
+        const imageData = await this.convertImageToBase64(currentTrack.coverImage);
         const coverUri = await this.saveAndGetFileUrl(relativePath, imageData);
         const fileExists = await Filesystem.stat({
             path: relativePath,
@@ -112,7 +107,7 @@ export class CapacitorFunctionService {
        try {
         const relativePath = `images/${currentTrack.title.replace(/\s+/g, '_')}.png`;
 
-        const imageData = await this.convertImageToBase64(currentTrack.cover);
+        const imageData = await this.convertImageToBase64(currentTrack.coverImage);
 
         const coverUri = await this.saveAndGetFileUrl(relativePath, imageData);
 
@@ -134,7 +129,6 @@ export class CapacitorFunctionService {
             url: 'https://vm.tiktok.com/ZMBohYqv2/',
         });
 
-        console.log('Archivo compartido con éxito');
     } catch (error) {
         console.error('Error al compartir el archivo:', error);
     }

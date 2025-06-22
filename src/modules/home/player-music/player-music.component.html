@@ -1,4 +1,4 @@
-  <div class="music-player" [ngStyle]="{ background: presenter.gradientStyle }" *ngIf="playlist.length > 0">
+<div class="music-player" [ngStyle]="{ background: presenter.gradientStyle }" *ngIf="playlist.length > 0">
   <div class="arrow-down">
     <i class="material-icons" (click)="presenter.minimizeMusic()">keyboard_arrow_down</i>
   </div>
@@ -7,7 +7,7 @@
     <strong>Lofi Japan</strong>
   </div>
 
-  <img [src]="presenter.currentTrack.cover" alt="Cover Art" class="cover" />
+  <img [src]="presenter.currentTrack.coverImage" alt="Cover Art" class="cover" />
 
   <div class="track-info">
     <h2>{{ presenter.currentTrack.title }}</h2>
@@ -16,26 +16,36 @@
 
   <div class="progress-bar">
     <input type="range" [value]="presenter.currentTime" [max]="presenter.duration" class="range-slider"
-      [style.background]="presenter.imageService.getSliderBackground(presenter.currentTime,presenter.duration)"
-      (input)="presenter.onSeek($event)" />
-    <span class="time-info">{{ presenter.formatTime(presenter.currentTime) }}</span><br>
+      [style.background]="
+        presenter.imageService.getSliderBackground(
+          presenter.currentTime,
+          presenter.duration
+        )
+      " (input)="presenter.onSeek($event)" />
+    <span class="time-info">{{
+      presenter.formatTime(presenter.currentTime)
+      }}</span><br />
   </div>
 
   <div class="controls">
-    <button class="small" (click)="presenter.previousTrack()"><i
-        class="material-icons">{{presenter.skipPreviousIcon}}</i></button>
+    <button class="small" (click)="presenter.previousTrack()">
+      <i class="material-icons">{{ presenter.skipPreviousIcon }}</i>
+    </button>
     <button (click)="presenter.togglePlay()">
       <img [src]="presenter.isPlaying ? presenter.pauseIcon : presenter.playIcon" alt="plays" width="50px"
-        height="50px">
+        height="50px" />
     </button>
-    <button class="small" (click)="presenter.nextTrack()"><i
-        class="material-icons">{{presenter.skipNextIcon}}</i></button>
+    <button class="small" (click)="presenter.nextTrack()">
+      <i class="material-icons">{{ presenter.skipNextIcon }}</i>
+    </button>
   </div>
 
   <div class="share-like">
-    <button class="small" (click)="presenter.toggleLike()"> <img [src]="presenter.isLikedIcon" width="35px"
-        height="35px" alt="like"></button>
-    <button class="small" (click)="presenter.capacitorService.shareTrack(presenter.currentTrack)"><img [src]="presenter.shareIcon" width="35px" height="35px"
-        alt="like"></button>
+    <button class="small" *ngIf="presenter.isLikedIcon" (click)="presenter.changeLikeMusicbyId(presenter.currentTrack.id)">
+      <img [src]="presenter.isLikedIcon" width="35px" height="35px" alt="like" />
+    </button>
+    <button class="small" (click)="presenter.capacitorService.shareTrack(presenter.currentTrack)">
+      <img [src]="presenter.shareIcon" width="35px" height="35px" alt="like" />
+    </button>
   </div>
 </div>

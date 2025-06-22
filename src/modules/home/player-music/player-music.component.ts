@@ -13,11 +13,12 @@ import { FunctionPlayerService } from 'src/services/functionPlayer.service';
 })
 export class PlayerMusicComponent implements OnInit, OnDestroy {
   @Input() playlist: Track[] = [];
-
+  @Input() indexMusic: number = 0;
   constructor(public presenter: PlayerMusicPresenterComponent, private functionService: FunctionPlayerService) {
   }
 
   ngOnInit(): void {
+    this.presenter.currentTrackIndex = this.indexMusic;
     this.presenter.loadTrack(this.playlist);
     this.functionService.setCurrentTrack(this.presenter);
     this.presenter.audio.addEventListener('loadedmetadata', () => {

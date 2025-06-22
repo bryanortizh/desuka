@@ -10,18 +10,43 @@
   <div class="section-list">
     <h1 class="title">Música destacada para ti</h1>
 
-    <ion-button expand="block" (click)="presenter.sendTrackPlayer()">Haga click</ion-button>
-    <ion-button expand="block" (click)="presenter.sendTrackPlayer2()">Haga click2</ion-button>
+    <div class="page">
+      <div class="section">
+        <div class="carousel">
+          <div class="card" *ngFor="let playlist of presenter.searchResults; let i = index"
+            (click)="presenter.sendTrackPlayer(presenter.searchResults, i, playlist)">
+            <img [src]="playlist.coverImage" alt="playlist image" />
+            <div class="text">{{ playlist.title }}</div>
+          </div>
+        </div>
+      </div>
 
+      <div class="categorias-container">
+        <h2 class="titulo">Categorías</h2>
+
+        <div class="categorias-grid" *ngIf="presenter.listCategory && presenter.listCategory.length > 0">
+          <div class="categoria" style="background-image: url('{{category.image}}')" *ngFor="let category of presenter.listCategory">
+            <div class="categoria-texto">{{category.name}}</div>
+          </div>
+        </div>
+
+        <div class="ver-mas-container mb-5">
+          <button class="ver-mas-btn">Ver más...</button>
+        </div>
+      </div>
+    </div>
   </div>
-
 </div>
 
-<app-music  *ngIf="presenter.showCompleteMusic && presenter.playlist.length !== 0 && presenter.statusPlayer === 'minimized'"></app-music>
+<app-music *ngIf="
+    presenter.showCompleteMusic &&
+    presenter.playlist.length !== 0 &&
+    presenter.statusPlayer === 'minimized'
+  "></app-music>
 
 <ion-modal *ngIf="presenter.showCompleteMusic" [keepContentsMounted]="true" trigger="open-modal" #modal
   (willDismiss)="presenter.closeMusicComplete($event)">
   <ng-template>
-    <app-player-music [playlist]="presenter.playlist"></app-player-music>
+    <app-player-music [playlist]="presenter.playlist" [indexMusic]="presenter.indexMusic"></app-player-music>
   </ng-template>
 </ion-modal>

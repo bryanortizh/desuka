@@ -11,8 +11,6 @@ export class MusicPresenterComponent {
 
     constructor(private functionPlayerService: FunctionPlayerService) { }
 
-
-
     toggleLike(stopEvent: Event): void {
         this.functionPlayerService.stopFunctionPlayer(stopEvent);
     }
