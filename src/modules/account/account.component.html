@@ -1,0 +1,25 @@
+<div class="profile-container" *ngIf="presenter.userInfo">
+  <div class="profile-header" *ngIf="presenter.userInfo.user as user">
+    <div class="profile-avatar" [ngStyle]="{'background-image': 'url(' + user.avatar + ')'}"></div>
+    <div class="profile-name">{{user.nickname}}</div>
+    <div class="profile-email">{{user.email}}</div>
+    <button class="edit-button">Editar perfil</button>
+
+  </div>
+
+  <div class="form-container" *ngIf="presenter.userInfo.user as user">
+    <label>Username</label>
+    <input type="text" class="input-field" [value]="user.nickname" />
+
+    <label>Contraseña</label>
+    <input type="password" class="input-field" autocomplete="off"  />
+
+    <label>Nueva contraseña</label>
+    <input type="password" class="input-field" autocomplete="off" />
+
+    <button class="save-button">Guardar cambios</button>
+
+    <button class="save-button mt-1" (click)="presenter.loggoutSession()">Cerrar sesión</button>
+
+  </div>
+</div>

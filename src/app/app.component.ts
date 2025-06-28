@@ -16,6 +16,7 @@ export class AppComponent {
   async getDeviceInfo() {
     const info = await Device.getInfo();
     const DeviceId = await Device.getId();
+    localStorage.setItem('deviceInfo', JSON.stringify(DeviceId));
   }
 
 }

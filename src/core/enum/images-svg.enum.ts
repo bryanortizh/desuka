@@ -6,4 +6,7 @@ export enum IconsSVG {
     coffeDontLikeSVG = '../../../assets/icon/coffeeLike.svg',
     coffeLikeisSVG = '../../../assets/icon/coffeeLikeis.svg',
     shareSVG = '../../../assets/icon/share.svg',
+    homeSVG = '../../../assets/icon/home.svg',
+    searchV2SVG = '../../../assets/icon/searchv2.svg',
+    accountSVG = '../../../assets/icon/account.svg',
 }

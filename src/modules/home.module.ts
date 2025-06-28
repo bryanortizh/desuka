@@ -8,12 +8,25 @@ import { MusicComponent } from './home/music/music.component';
 import { HomeListComponent } from './home/home-list/home-list.component';
 import { FunctionPlayerService } from 'src/services/functionPlayer.service';
 import { musicService } from 'src/services/music.service';
-import { HttpClient, HttpClientModule, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
+import { TabsComponent } from './home/tabs/tabs.component';
+import { AccountComponent } from './account/account.component';
+import { authService } from 'src/services/auth.service';
 
-const Component = [PlayerMusicComponent, MusicComponent, HomeListComponent];
+const Component = [
+  TabsComponent,
+  PlayerMusicComponent,
+  MusicComponent,
+  HomeListComponent,
+  AccountComponent
+];
 const Service = [
   FunctionPlayerService,
   musicService,
+  authService,
   provideHttpClient(withInterceptorsFromDi()),
 ];
 @NgModule({

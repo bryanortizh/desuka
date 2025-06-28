@@ -1,12 +1,13 @@
 <div class="container">
-  <h1 class="title-access">Acceso</h1>
-  <p class="subtitle">Inicia sesión en tu cuenta</p>
+  <h1 class="title-access">Login</h1>
+  <p class="subtitle">Bienvenido a Desuka...</p>
   <div class="spacing-login">
-    <div class="button">
-      <span class="button-text">Correo electrónico</span>
+    <div class="button" (click)="routerEmail()">
+      <span class="button-text" >Correo electrónico</span>
     </div>
-    <div class="button" (click)="handleGuestPress()">
-      <span class="button-text">Invitado</span>
+    <div class="button" [class.disabled]="disabledButton" [attr.aria-disabled]="disabledButton ? true : null"
+      (click)="!disabledButton && verifyGuest()">
+      <span class="button-text">{{ disabledButton ? 'Cargando...' : 'Invitado' }}</span>
     </div>
   </div>
 </div>

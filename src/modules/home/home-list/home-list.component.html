@@ -1,10 +1,13 @@
+
 <div class="gradient-background">
   <h3 class="title-access">Desuka App</h3>
 
   <div class="mt-5 search-bar" [formGroup]="searchForm">
     <img [src]="iconSVGSearch" width="30px" height="30px" alt="search" (click)="searchMusic()" />
     <input type="text" formControlName="search" placeholder="Buscar canciones, artistas o álbumes" />
+    <i>
     <img [src]="iconSVGMicrophone" width="30px" height="30px" alt="microphone" (click)="openVoiceSearch()" />
+    </i>
   </div>
 
   <div class="section-list">
@@ -50,3 +53,5 @@
     <app-player-music [playlist]="presenter.playlist" [indexMusic]="presenter.indexMusic"></app-player-music>
   </ng-template>
 </ion-modal>
+
+
