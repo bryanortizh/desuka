@@ -1,0 +1,22 @@
+<div class="search-container">
+  <div class="mt-5 search-bar">
+    <input type="text" formControlName="search" placeholder="Buscar" />
+    <i>
+      <img [src]="iconSVGCamera" width="30px" height="30px" alt="microphone" />
+    </i>
+  </div>
+
+
+  <div class="section-title">Búsquedas recientes</div>
+
+  <div class="search-list">
+    <div class="search-item" *ngFor="let item of recentSearches">
+      <img [src]="item.img" alt="cover" />
+      <div class="info">
+        <div class="title">{{ item.title }}</div>
+        <div class="subtitle">{{ item.subtitle }}</div>
+      </div>
+      <button class="close-btn">✕</button>
+    </div>
+  </div>
+</div>

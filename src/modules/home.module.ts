@@ -15,13 +15,15 @@ import {
 import { TabsComponent } from './home/tabs/tabs.component';
 import { AccountComponent } from './account/account.component';
 import { authService } from 'src/services/auth.service';
+import { SearchBoxComponent } from './search-box/search-box.component';
 
 const Component = [
   TabsComponent,
   PlayerMusicComponent,
   MusicComponent,
   HomeListComponent,
-  AccountComponent
+  AccountComponent,
+  SearchBoxComponent
 ];
 const Service = [
   FunctionPlayerService,

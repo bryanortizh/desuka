@@ -19,8 +19,6 @@ export class TabsComponent implements OnInit {
   ngOnInit() {}
   
   ionTabsDidChange($event: any) {
-    console.log('ionTabsDidChange', this.accountComponent);
-    console.log('Tabs changed', $event);
     if($event.tab === 'account' && this.accountComponent) {
       this.accountComponent.presenter.getUserInfo();
     }
