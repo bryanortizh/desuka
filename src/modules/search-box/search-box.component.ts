@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { IconsSVG } from 'src/core/enum/images-svg.enum';
+import { CapacitorFunctionService } from 'src/services/capacitorFunction.service';
 
 @Component({
   selector: 'app-search-box',
   templateUrl: './search-box.component.html',
   styleUrls: ['./search-box.component.scss'],
-  standalone: false
+  standalone: false,
 })
 export class SearchBoxComponent implements OnInit {
-    iconSVGCamera = IconsSVG.cameraSVG;
-  
+  iconSVGCamera = IconsSVG.cameraSVG;
+
   recentSearches = [
     {
       title: 'Lofi Study 2024',
@@ -41,7 +42,7 @@ export class SearchBoxComponent implements OnInit {
     },
   ];
 
-  constructor() {}
+  constructor(public scannerAudio: CapacitorFunctionService) {}
 
   ngOnInit() {}
 }

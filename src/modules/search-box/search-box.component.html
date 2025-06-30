@@ -1,8 +1,8 @@
 <div class="search-container">
   <div class="mt-5 search-bar">
-    <input type="text" formControlName="search" placeholder="Buscar" />
-    <i>
-      <img [src]="iconSVGCamera" width="30px" height="30px" alt="microphone" />
+    <input type="text"  placeholder="Buscar" />
+    <i (click)="scannerAudio.scanQRCode()">
+      <img [src]="iconSVGCamera" width="30px" height="30px" alt="camera" />
     </i>
   </div>
 
