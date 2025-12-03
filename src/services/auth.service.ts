@@ -13,6 +13,12 @@ import {
   responseVerify,
   verifyUser,
 } from 'src/core/interface/register.interface';
+import {
+  FollowerUser,
+  ProfileUser,
+  ProfileUserResponse,
+} from 'src/core/interface/profileUser.interface';
+import { ConversationCreate, ConversationResponse } from 'src/core/interface/conversation.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -54,6 +60,52 @@ export class authService {
     return this.http.post<responseLogin>(
       `${this.environmentUrl}${EndPoints.login}`,
       userData
+    );
+  }
+
+  profileUser(userData: ProfileUser): Observable<ProfileUserResponse> {
+    return this.http.post<ProfileUserResponse>(
+      `${this.environmentUrl}${EndPoints.profileUser}`,
+      userData,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  followUser(userData: FollowerUser): Observable<any> {
+    return this.http.post<any>(
+      `${this.environmentUrl}${EndPoints.followUser}`,
+      userData,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  unfollowUser(userData: FollowerUser): Observable<any> {
+    return this.http.post<any>(
+      `${this.environmentUrl}${EndPoints.unfollowUser}`,
+      userData,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+  
+  seeAllFollowing(userData: ProfileUser): Observable<any> {
+    return this.http.get<any>(
+      `${this.environmentUrl}${EndPoints.getAllFollowing}${userData.userId}`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  isFollowUser(userId: number): Observable<any> {
+    return this.http.get<any>(
+      `${this.environmentUrl}${EndPoints.isFollowUser}${userId}`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  createConversation(userData: ConversationCreate): Observable<ConversationResponse> {
+    return this.http.post<ConversationResponse>(
+      `${this.environmentUrl}${EndPoints.createConversation}`,
+      userData,
+      { headers: this.getAuthHeaders() }
     );
   }
 }

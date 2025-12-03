@@ -6,6 +6,10 @@ import { EndPoints } from 'src/core/enum/endpoints.enum';
 import { Track } from 'src/core/interface/tracker.interface';
 import { MusicLike } from 'src/core/interface/music.interface';
 import { Category } from 'src/core/interface/category.interface';
+import {
+  SearchGeneral,
+  SearchGeneralResponse,
+} from 'src/core/interface/search_general.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -47,6 +51,16 @@ export class musicService {
     return this.http.put<MusicLike>(
       `${this.environmentUrl}${EndPoints.like_music}/${id}`,
       null,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
+  searchGeneral(
+    dataBody: SearchGeneral
+  ): Observable<SearchGeneralResponse[]> {
+    return this.http.post<SearchGeneralResponse[]>(
+      `${this.environmentUrl}${EndPoints.search_general}`,
+      dataBody,
       { headers: this.getAuthHeaders() }
     );
   }

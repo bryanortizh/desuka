@@ -41,6 +41,7 @@ export class LoginComponent {
       .subscribe({
         next: (results) => {
           this.disabledButton = false;
+          localStorage.setItem('tabs', 'home');
           localStorage.setItem('token', results.response.token);
           localStorage.setItem('userId', results.user.id.toString());
           this.navigate.navigate(['/home/system']);
@@ -70,6 +71,7 @@ export class LoginComponent {
       .subscribe({
         next: (results) => {
           this.disabledButton = false;
+          localStorage.setItem('tabs', 'home');
           localStorage.setItem('token', results.token);
           localStorage.setItem('userId', results.userId.toString());
           this.navigate.navigate(['/home/system']);
@@ -101,6 +103,7 @@ export class LoginComponent {
       .subscribe({
         next: (results) => {
           this.disabledButton = false;
+          localStorage.setItem('tabs', 'home');
           localStorage.setItem('token', results.token);
           localStorage.setItem('userId', results.userId.toString());
           this.navigate.navigate(['/home/system']);
@@ -117,7 +120,7 @@ export class LoginComponent {
     return `username${randomNum}`;
   }
 
-  routerEmail(){
+  routerEmail() {
     this.navigate.navigate(['/auth/login-email']);
   }
 }

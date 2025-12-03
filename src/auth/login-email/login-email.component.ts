@@ -54,6 +54,7 @@ export class LoginEmailComponent implements OnInit {
       .subscribe({
         next: (results) => {
           this.disabledButton = false;
+          localStorage.setItem('tabs', 'home');
           localStorage.setItem('token', results.token);
           localStorage.setItem('userId', results.userId.toString());
           this.navigate.navigate(['/home/system']);

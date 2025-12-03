@@ -1,15 +1,16 @@
 <div class="search-container">
-  <div class="mt-5 search-bar">
-    <input type="text"  placeholder="Buscar" />
+  <div class="mt-2 search-bar">
+    <input type="text" placeholder="Buscar" [(ngModel)]="searchText" (ngModelChange)="searchTerm()" />
     <i (click)="scannerAudio.scanQRCode()">
       <img [src]="iconSVGCamera" width="30px" height="30px" alt="camera" />
     </i>
   </div>
 
+<!--   <ng-container *ngIf="recentSearches && recentSearches.length > 0">
 
-  <div class="section-title">Búsquedas recientes</div>
+      <div class="section-title mt-2">Búsquedas recientes</div> -->
 
-  <div class="search-list">
+    <!--  <div class="search-list">
     <div class="search-item" *ngFor="let item of recentSearches">
       <img [src]="item.img" alt="cover" />
       <div class="info">
@@ -19,4 +20,25 @@
       <button class="close-btn">✕</button>
     </div>
   </div>
+</div> 
+  </ng-container> -->
+
+
+  <ng-container>
+    <div class="section-title mt-2" *ngIf="searchResults.length > 0">Resultados</div>
+    <div class="loader mt-3" *ngIf="loadingSearch">
+      <ion-spinner color="tertiary"></ion-spinner>
+    </div>
+    <div class="search-list mt-1">
+      <div class="search-item" *ngFor="let item of searchResults" (click)="enterProfile(item)">
+        <img [src]="item.icon" alt="cover" />
+        <div class="info">
+          <div class="title">{{ item.text }}</div>
+          <div class="subtitle" *ngIf="item.type === 'audio'" > {{item.idTypeOrAlbum}}</div>
+          <div class="subtitle" *ngIf="item.type === 'user'" > {{changeTextAudioOrUser(item.idTypeOrAlbum)}}</div>
+
+        </div>
+      </div>
+    </div>
+  </ng-container>
 </div>

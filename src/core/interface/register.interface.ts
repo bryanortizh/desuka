@@ -14,7 +14,7 @@ export interface responseRegister {
 }
 
 export interface verifyUser {
-  uuid: string;
+  uuid?: string;
   userId: number;
 }
 

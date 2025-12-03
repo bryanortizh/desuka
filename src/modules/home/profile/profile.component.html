@@ -1,0 +1,68 @@
+<!-- music-profile.component.html -->
+<div class="container" *ngIf="userInfo">
+  <div class="profile-header">
+    <div class="back-icon" (click)="backSteep()">&larr;</div>
+    <div class="avatar">
+      <img [src]="userInfo.user.avatar" alt="Loading profile" />
+    </div>
+    <div class="profile-info">
+      <h2>{{userInfo.user.nickname}}</h2>
+      <p>{{userInfo.user.nickname}}</p>
+      <div class="stats">
+        <span>54 Albums</span>
+        <span>24k Subscribers</span>
+      </div>
+      <div class="actions">
+        <div class="shuffle" *ngIf="idUser !== userId" (click)="createConversation()">Mensaje</div>
+        <div class="follow" *ngIf="idUser !== userId && !followed" (click)="followUser(userInfo.user.id)">Seguir</div>
+        <div class="follow" *ngIf="idUser !== userId && followed" (click)="unfollowUser(userInfo.user.id)">Dejar de
+          seguir</div>
+        <div class="edit-profile" *ngIf="idUser === userId">Editar Perfil</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <span class="active-tab">Populer Song</span>
+    <span>Albums</span>
+    <span>Fichardt</span>
+  </div>
+
+  <div class="song-list">
+    <div class="song playing">
+      <img src="assets/img/artist.jpg" />
+      <div class="song-info">
+        <h4>Human Again</h4>
+        <p>Canada • 3.5m</p>
+      </div>
+      <div class="icon">⏸️</div>
+    </div>
+
+    <div class="song">
+      <img src="assets/img/artist.jpg" />
+      <div class="song-info">
+        <h4>Coming Alive</h4>
+        <p>Canada • 3.5m</p>
+      </div>
+      <div class="icon">▶️</div>
+    </div>
+
+    <div class="song">
+      <img src="assets/img/artist.jpg" />
+      <div class="song-info">
+        <h4>Populer Sons</h4>
+        <p>Canada • 3.5m</p>
+      </div>
+      <div class="icon">▶️</div>
+    </div>
+
+    <div class="song">
+      <img src="assets/img/artist.jpg" />
+      <div class="song-info">
+        <h4>Coming Alive</h4>
+        <p>Canada • 3.5m</p>
+      </div>
+      <div class="icon">▶️</div>
+    </div>
+  </div>
+</div>

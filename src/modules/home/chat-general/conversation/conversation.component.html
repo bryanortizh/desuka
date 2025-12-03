@@ -1,0 +1,26 @@
+<div class="messages-container">
+  <div class="top-bar">
+    <span>Messages</span>
+    <ion-icon name="search-outline"></ion-icon>
+  </div>
+
+  <div class="recent-avatars">
+    <div class="avatar" *ngFor="let user of users">
+      <div class="avatar-img-wrapper">
+        <img [src]="user.img" />
+      </div>
+      <span>{{ user.name }}</span>
+    </div>
+  </div>
+
+  <div class="chat-list mt-4">
+    <div class="chat-item" *ngFor="let chat of chats" (click)="goChat(chat)">
+      <img class="profile-img" [src]="chat.is_group == true ? chat.avatar_group : chat.avatar" *ngIf="chat" />
+      <div class="chat-info">
+        <div class="chat-name">{{ chat.is_group == true ? chat.title : chat.nickname }}</div>
+        <div class="chat-msg"> <ng-content *ngIf="chat.is_group == true">{{chat.nickname}} :</ng-content> {{ chat.content }}</div>
+      </div>
+      <div class="chat-time">{{ chat.created_at | date:'yyyy-MM-dd:':'UTC' }}</div>
+    </div>
+  </div>
+</div>

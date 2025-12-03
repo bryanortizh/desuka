@@ -50,7 +50,10 @@
 <ion-modal *ngIf="presenter.showCompleteMusic" [keepContentsMounted]="true" trigger="open-modal" #modal
   (willDismiss)="presenter.closeMusicComplete($event)">
   <ng-template>
-    <app-player-music [playlist]="presenter.playlist" [indexMusic]="presenter.indexMusic"></app-player-music>
+    
+    <div class="modal-scroll-content">
+      <app-player-music [playlist]="presenter.playlist" [indexMusic]="presenter.indexMusic"></app-player-music>
+    </div>
   </ng-template>
 </ion-modal>
 

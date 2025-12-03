@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { IconsSVG } from 'src/core/enum/images-svg.enum';
+import {
+  SearchGeneral,
+  SearchGeneralResponse,
+} from 'src/core/interface/search_general.interface';
 import { CapacitorFunctionService } from 'src/services/capacitorFunction.service';
+import { musicService } from 'src/services/music.service';
 
 @Component({
   selector: 'app-search-box',
@@ -10,39 +17,71 @@ import { CapacitorFunctionService } from 'src/services/capacitorFunction.service
 })
 export class SearchBoxComponent implements OnInit {
   iconSVGCamera = IconsSVG.cameraSVG;
+  searchText: string = '';
+  loadingSearch: boolean = false;
+  recentSearches: SearchGeneralResponse[] = [];
+  searchResults: SearchGeneralResponse[] = [];
+  private destroy$ = new Subject<void>();
 
-  recentSearches = [
-    {
-      title: 'Lofi Study 2024',
-      subtitle: 'Playlist',
-      img: 'assets/img/lofi.jpg',
-    },
-    {
-      title: 'clear eyes, blind sight',
-      subtitle: 'idyllla',
-      img: 'assets/img/clear.jpg',
-    },
-    { title: 'Crush', subtitle: 'Laffey', img: 'assets/img/crush.jpg' },
-    {
-      title: 'The Prophecy',
-      subtitle: 'Mondo Loops',
-      img: 'assets/img/prophecy.jpg',
-    },
-    {
-      title: 'Ventura',
-      subtitle: 'Your Magnolia',
-      img: 'assets/img/ventura.jpg',
-    },
-    { title: 'cool winds', subtitle: 'kudo', img: 'assets/img/winds.jpg' },
-    { title: 'Cailin', subtitle: 'kokoro', img: 'assets/img/cailin.jpg' },
-    {
-      title: 'Orpheus',
-      subtitle: 'Dimension 32',
-      img: 'assets/img/orpheus.jpg',
-    },
-  ];
-
-  constructor(public scannerAudio: CapacitorFunctionService) {}
+  constructor(
+    public scannerAudio: CapacitorFunctionService,
+    private serviceMusic: musicService,
+    private navigator: Router
+  ) {}
 
   ngOnInit() {}
+
+  searchTerm() {
+    if (this.searchText.trim() === '') {
+      this.searchResults = [];
+      this.loadingSearch = false;
+      return;
+    }
+    const dataBody: SearchGeneral = {
+      searchTerm: this.searchText,
+    };
+    this.loadingSearch = true;
+    this.serviceMusic
+      .searchGeneral(dataBody)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (results) => {
+          this.searchResults = results;
+        },
+        complete: () => {
+          this.loadingSearch = false;
+        },
+        error: (err) => {
+          this.loadingSearch = false;
+          console.error('Error al buscar:', err);
+        },
+      });
+  }
+
+  changeTextAudioOrUser(text: number | string): string {
+    switch (text) {
+      case '1':
+        return 'Creador';
+      case '2':
+        return 'Usuario';
+      case '3':
+        return 'Administrador';
+      case '4':
+        return 'Soporte';
+      default:
+        return '';
+    }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+    this.destroy$.unsubscribe();
+    this.recentSearches = [];
+  }
+
+  enterProfile(item: SearchGeneralResponse) {
+    this.navigator.navigate(['home/profile', item.id]);
+  }
+
 }

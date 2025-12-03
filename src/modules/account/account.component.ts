@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 })
 export class AccountComponent implements OnInit {
   constructor(public presenter: AccountPresenterComponent) {}
+
   ngOnInit() {
     this.presenter.getUserInfo();
   }

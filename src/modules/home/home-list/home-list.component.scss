@@ -2,7 +2,7 @@
   min-height: 100vh;
   background: linear-gradient(to bottom, #8e2de2, #000000);
   display: 100dvh;
-  overflow: scroll;
+  overflow: auto;
   flex-direction: column;
   align-items: center;
   padding: 1.5em;
@@ -194,4 +194,8 @@
   }
 }
 
+}
+.modal-scroll-content {
+  max-height: 100%;
+  overflow-y: auto;
 }

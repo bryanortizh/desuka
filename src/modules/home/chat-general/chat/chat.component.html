@@ -1,0 +1,22 @@
+<div class="chat-container">
+  <div class="chat-header">
+    <div class="back-icon" (click)="backSteep()">&larr;</div>
+
+    <h3>{{ conversationTitle }}</h3>
+    <div></div>
+  </div>
+  <div class="chat-messages" #scrollMe>
+    <div *ngFor="let msg of messages"
+      [ngClass]="{'my-message': msg.user_id === myUserId, 'other-message': msg.user_id !== myUserId}">
+      <div class="message-content">
+        <span *ngIf="msg.user_id !== myUserId" class="nickname">{{ msg.nickname }}</span>
+        <span>{{ msg.content }}</span>
+      </div>
+      <div class="message-time">{{ msg.created_at | date:'shortTime' }}</div>
+    </div>
+  </div>
+  <form (ngSubmit)="sendMessage()" class="chat-input">
+    <input [(ngModel)]="newMessage" name="message" placeholder="Escribe un mensaje..." autocomplete="off" required />
+    <button type="submit">Enviar</button>
+  </form>
+</div>

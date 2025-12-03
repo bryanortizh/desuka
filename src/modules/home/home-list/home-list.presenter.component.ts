@@ -64,6 +64,7 @@ export class HomeListPresenterComponent implements OnInit {
   destroyMusicModal() {
     this.showCompleteMusic = false;
     var modalMusic = document.querySelector('ion-modal');
+
     if (modalMusic) {
       modalMusic.keepContentsMounted = false;
       modalMusic.dismiss();
@@ -100,7 +101,7 @@ export class HomeListPresenterComponent implements OnInit {
         },
       });
   }
-  
+
   getCategory() {
     this.musicService
       .getCategory()
