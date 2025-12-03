@@ -31,6 +31,7 @@ export class PlayerMusicPresenterComponent {
   currentTime = 0;
   duration = 0;
   currentTrackIndex = 0;
+  volume = 100;
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -65,6 +66,11 @@ export class PlayerMusicPresenterComponent {
 
   onSeek(event: any) {
     this.audio.currentTime = event.target.value;
+  }
+
+  onVolumeChange(event: any) {
+    this.volume = parseInt(event.target.value);
+    this.audio.volume = this.volume / 100;
   }
 
   nextTrack() {

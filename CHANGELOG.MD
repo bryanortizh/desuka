@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [1.0.3] - 2025-12-03
+-Add modify modal web and volume
+-Add conversation endpoint 50%
+-Add capacitor QR Scanner 
+-Implements module search
 
 ## [1.0.2] - 2025-05-12
 ### Optimized

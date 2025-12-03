@@ -7,7 +7,7 @@
     <strong>Lofi Japan</strong>
   </div>
 
-  <img [src]="presenter.currentTrack.coverImage" alt="Cover Art" class="cover" />
+  <img [src]="presenter.currentTrack.coverImage" alt="Cover Art" class="cover" width="270" height="270"/>
 
   <div class="track-info">
     <h2>{{ presenter.currentTrack.title }}</h2>
@@ -26,6 +26,16 @@
       presenter.formatTime(presenter.currentTime)
       }}</span><br />
   </div>
+
+  <div class="volume-control">
+    <i class="material-icons volume-icon" >{{ presenter.volume === 0 ? 'volume_off' : presenter.volume < 50 ? 'volume_down' : 'volume_up' }}</i>
+    <input type="range" min="0" max="100" [value]="presenter.volume" class="volume-slider"
+      [style.background]="presenter.imageService.getSliderBackground(presenter.volume, 100)"
+      (input)="presenter.onVolumeChange($event)" />
+    <span class="volume-percentage">{{ presenter.volume }}%</span>
+  </div>
+
+  
 
   <div class="controls">
     <button class="small" (click)="presenter.previousTrack()">

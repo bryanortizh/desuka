@@ -48,7 +48,7 @@
   "></app-music>
 
 <ion-modal *ngIf="presenter.showCompleteMusic" [keepContentsMounted]="true" trigger="open-modal" #modal
-  (willDismiss)="presenter.closeMusicComplete($event)">
+  (willDismiss)="presenter.closeMusicComplete($event)" class="fullscreen-modal-web">
   <ng-template>
     
     <div class="modal-scroll-content">

@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://khaki-kids-cut.loca.lt/',
+  apiUrl: 'https://desukabe-production.up.railway.app/',
 };
