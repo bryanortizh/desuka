@@ -1,25 +1,33 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
-import { PlayerMusicPresenterComponent } from "src/modules/home/player-music/player-music.presenter.component";
-
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { PlayerMusicPresenterComponent } from 'src/modules/home/player-music/player-music.presenter.component';
 
 @Injectable()
 export class FunctionPlayerService {
+  private _currentTrack =
+    new BehaviorSubject<PlayerMusicPresenterComponent | null>(null);
+  private _searchTrack = new BehaviorSubject<any>(null);
+  setCurrentTrack(track: PlayerMusicPresenterComponent): void {
+    this._currentTrack.next(track);
+  }
 
-    private _currentTrack = new BehaviorSubject<PlayerMusicPresenterComponent | null>(null);
+  getCurrentTrack$() {
+    return this._currentTrack.asObservable();
+  }
 
-    setCurrentTrack(track: PlayerMusicPresenterComponent): void {
-        this._currentTrack.next(track);
-    }
+  getCurrentTrack(): PlayerMusicPresenterComponent | null {
+    return this._currentTrack.value;
+  }
+  stopFunctionPlayer(stopEvent: Event): void {
+    stopEvent.stopPropagation();
+  }
 
-    getCurrentTrack$() {
-        return this._currentTrack.asObservable();
-    }
+  setMusicSearch(track: any): void {
+    console.log('setMusicSearch', track);
+    this._searchTrack.next(track);
+  }
 
-    getCurrentTrack(): PlayerMusicPresenterComponent | null {
-        return this._currentTrack.value;
-    }
-    stopFunctionPlayer(stopEvent: Event): void {
-        stopEvent.stopPropagation();
-    }
+  getMusicSearch$() {
+    return this._searchTrack.asObservable();
+  }
 }

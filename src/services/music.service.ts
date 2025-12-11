@@ -55,6 +55,13 @@ export class musicService {
     );
   }
 
+  getMusicbyId(id: number): Observable<Track> {
+    return this.http.get<Track>(
+      `${this.environmentUrl}${EndPoints.detail_music}${id}`,
+      { headers: this.getAuthHeaders() }
+    );
+  }
+
   searchGeneral(
     dataBody: SearchGeneral
   ): Observable<SearchGeneralResponse[]> {

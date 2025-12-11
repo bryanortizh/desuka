@@ -30,7 +30,7 @@
       <ion-spinner color="tertiary"></ion-spinner>
     </div>
     <div class="search-list mt-1">
-      <div class="search-item" *ngFor="let item of searchResults" (click)="enterProfile(item)">
+      <div class="search-item" *ngFor="let item of searchResults" (click)="enterItem(item)">
         <img [src]="item.icon" alt="cover" />
         <div class="info">
           <div class="title">{{ item.text }}</div>

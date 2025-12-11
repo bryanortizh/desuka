@@ -3,9 +3,11 @@ import {
   Input,
   ChangeDetectionStrategy,
   OnInit,
+  OnDestroy,
   ChangeDetectorRef,
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
+import { FunctionPlayerService } from 'src/services/functionPlayer.service';
 import { statusPlayer } from 'src/core/enum/statusPlayer.enum';
 import { TimeOut } from 'src/core/enum/timeout.enum';
 import { Category } from 'src/core/interface/category.interface';
@@ -29,10 +31,17 @@ export class HomeListPresenterComponent implements OnInit {
 
   constructor(
     private cdr: ChangeDetectorRef,
-    private musicService: musicService
+    private musicService: musicService,
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   showHideMusicBar() {
     const musicBar = document.querySelector('.music-bar');

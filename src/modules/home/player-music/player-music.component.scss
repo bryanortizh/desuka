@@ -3,7 +3,7 @@
   padding: 20px;
   font-family: 'Segoe UI', sans-serif;
   text-align: center;
-  height: 100dvh;
+  height: auto;
 
   .header {
     font-size: 12px;
@@ -201,7 +201,7 @@
   .controls {
     display: flex;
     justify-content: space-around;
-    gap: 15px;
+    gap: 26px;
 
     i {
       font-size: 35px;
@@ -228,7 +228,7 @@
   .share-like {
     display: flex;
     justify-content: space-around;
-    gap: 15px;
+    gap: 40px;
     margin-top: 10px;
 
     button {
@@ -251,6 +251,7 @@
   .arrow-down{
     display: flex;
     justify-content: end;
+    width: 100%;
   }
 
 }

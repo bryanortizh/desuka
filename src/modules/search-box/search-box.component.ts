@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { IconsSVG } from 'src/core/enum/images-svg.enum';
@@ -7,7 +7,9 @@ import {
   SearchGeneralResponse,
 } from 'src/core/interface/search_general.interface';
 import { CapacitorFunctionService } from 'src/services/capacitorFunction.service';
+import { FunctionPlayerService } from 'src/services/functionPlayer.service';
 import { musicService } from 'src/services/music.service';
+import { HomeListPresenterComponent } from '../home/home-list/home-list.presenter.component';
 
 @Component({
   selector: 'app-search-box',
@@ -16,6 +18,7 @@ import { musicService } from 'src/services/music.service';
   standalone: false,
 })
 export class SearchBoxComponent implements OnInit {
+  @Output() goHomeTab: EventEmitter<string> = new EventEmitter<string>();
   iconSVGCamera = IconsSVG.cameraSVG;
   searchText: string = '';
   loadingSearch: boolean = false;
@@ -26,7 +29,8 @@ export class SearchBoxComponent implements OnInit {
   constructor(
     public scannerAudio: CapacitorFunctionService,
     private serviceMusic: musicService,
-    private navigator: Router
+    private navigator: Router,
+    private functionService: FunctionPlayerService
   ) {}
 
   ngOnInit() {}
@@ -80,8 +84,36 @@ export class SearchBoxComponent implements OnInit {
     this.recentSearches = [];
   }
 
-  enterProfile(item: SearchGeneralResponse) {
-    this.navigator.navigate(['home/profile', item.id]);
+  getMusicById(id: number) {
+    this.serviceMusic.getMusicbyId(id).subscribe({
+      next: (music) => {
+        console.log('Música obtenida por ID:', music);
+        try {
+          this.goHomeTab.emit('home');
+            this.functionService.setMusicSearch({
+              track: music,
+              index: 0,
+              musicList: [music],
+            });
+        } catch (e) {
+          console.warn('No hay suscriptor para goHomeTab', e);
+        }
+
+        //this.scannerAudio.playMusicFromSearch(music)
+      },
+      error: (err) => {
+        console.error('Error al obtener la música por ID:', err);
+      },
+    });
   }
 
+  enterItem(item: SearchGeneralResponse) {
+    console.log(item);
+    if (item.type === 'audio') {
+      this.getMusicById(item.id);
+    }
+    if (item.type === 'user') {
+      this.navigator.navigate(['home/profile', item.id]);
+    }
+  }
 }

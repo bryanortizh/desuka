@@ -7,7 +7,7 @@
   </ion-tab>
   <ion-tab tab="search">
     <ion-content>
-      <app-search-box></app-search-box>
+      <app-search-box (goHomeTab)="goToHomeWithTab($event)"></app-search-box>
     </ion-content>
   </ion-tab>
   <ion-tab tab="message">
