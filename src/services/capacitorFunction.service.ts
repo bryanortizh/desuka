@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { Share } from '@capacitor/share';
+import { Capacitor } from '@capacitor/core';
 import { CapacitorMusicControls } from 'capacitor-music-controls-plugin';
 import { Track } from 'src/core/interface/tracker.interface';
 import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
@@ -107,14 +108,55 @@ export class CapacitorFunctionService {
 
   async shareTrack(currentTrack: Track) {
     try {
-      const relativePath = `images/${currentTrack.title.replace(
-        /\s+/g,
-        '_'
-      )}.png`;
+      const platform = Capacitor && (Capacitor.getPlatform ? Capacitor.getPlatform() : 'web');
+      const relativePath = `images/${currentTrack.title.replace(/\s+/g, '_')}.png`;
 
-      const imageData = await this.convertImageToBase64(
-        currentTrack.coverImage
-      );
+      // Si estamos en web, intentamos compartir la imagen directamente sin guardarla
+      if (platform === 'web') {
+        try {
+          const resp = await fetch(currentTrack.coverImage);
+          const blob = await resp.blob();
+          const fileName = `${currentTrack.title.replace(/\s+/g, '_')}.png`;
+          const file = new File([blob], fileName, { type: blob.type || 'image/png' });
+
+          const shareText = `Escucha a ${currentTrack.title} - ${currentTrack.artist} y únete a la comunidad de DesukaApp`;
+          // Si el navegador soporta compartir archivos
+          if ((navigator as any).share) {
+            const canShareFiles = (navigator as any).canShare ? (navigator as any).canShare({ files: [file] }) : false;
+            if (canShareFiles) {
+              await (navigator as any).share({
+                title: 'DesukaApp Lofi Song Radio',
+                text: shareText,
+                files: [file],
+              });
+              return;
+            }
+            // Fallback: intentar compartir texto + url
+            try {
+              await (navigator as any).share({
+                title: 'DesukaApp Lofi Song Radio',
+                text: shareText,
+                url: currentTrack.coverImage,
+              });
+              return;
+            } catch (err) {
+              // Último recurso: abrir la imagen en una nueva pestaña
+              window.open(currentTrack.coverImage, '_blank');
+              return;
+            }
+          } else {
+            // No existe navigator.share: abrir imagen en nueva pestaña
+            window.open(currentTrack.coverImage, '_blank');
+            return;
+          }
+        } catch (err) {
+          console.error('Error al compartir en web:', err);
+          return;
+        }
+      }
+
+      // Comportamiento nativo (Android/iOS): convertir, guardar y compartir archivo
+      const imageData = await this.convertImageToBase64(currentTrack.coverImage);
 
       const coverUri = await this.saveAndGetFileUrl(relativePath, imageData);
 
