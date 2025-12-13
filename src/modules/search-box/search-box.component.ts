@@ -89,12 +89,12 @@ export class SearchBoxComponent implements OnInit {
       next: (music) => {
         console.log('Música obtenida por ID:', music);
         try {
-          this.goHomeTab.emit('home');
-            this.functionService.setMusicSearch({
-              track: music,
-              index: 0,
-              musicList: [music],
-            });
+          this.navigator.navigate(['home/system/home']);
+          this.functionService.setMusicSearch({
+            track: music,
+            index: 0,
+            musicList: [music],
+          });
         } catch (e) {
           console.warn('No hay suscriptor para goHomeTab', e);
         }

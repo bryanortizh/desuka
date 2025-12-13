@@ -4,3 +4,8 @@ ion-tab-bar{
 ion-tab-button{
     background-color: black !important;
 }
+
+ion-content {
+    /* leave space for the fixed mini-player */
+    padding-bottom: 80px;
+}

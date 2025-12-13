@@ -1,38 +1,23 @@
 
-<ion-tabs (ionTabsWillChange)="ionTabsDidChange($event)" #tabs>
-  <ion-tab tab="home">
-    <ion-content>
-      <app-home-list></app-home-list>
-    </ion-content>
-  </ion-tab>
-  <ion-tab tab="search">
-    <ion-content>
-      <app-search-box (goHomeTab)="goToHomeWithTab($event)"></app-search-box>
-    </ion-content>
-  </ion-tab>
-  <ion-tab tab="message">
-    <ion-content>
-      <app-conversation></app-conversation>
-    </ion-content>
-  </ion-tab>
-  <ion-tab tab="account">
-    <ion-content>
-     <app-account></app-account>
-    </ion-content>
-  </ion-tab>
+<ion-tabs #tabs>
 
+
+<!--   <ion-content>
+    <ion-router-outlet></ion-router-outlet>
+  </ion-content>
+ -->
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="home">
-      <img [src]="homeSVG" alt="plays" width="30px" height="30px">
+    <ion-tab-button tab="home" [routerLink]="['/home/system/home']">
+      <img [src]="homeSVG" alt="plays" width="30px" height="30px" />
     </ion-tab-button>
-    <ion-tab-button tab="search">
-      <img [src]="searchv2SVG" alt="plays" width="30px" height="30px">
+    <ion-tab-button tab="search" [routerLink]="['/home/system/search']">
+      <img [src]="searchv2SVG" alt="plays" width="30px" height="30px" />
     </ion-tab-button>
-    <ion-tab-button tab="message">
-      <img [src]="accountSVG" alt="plays" width="30px" height="30px">
+    <ion-tab-button tab="message" [routerLink]="['/home/system/message']">
+      <img [src]="accountSVG" alt="plays" width="30px" height="30px" />
     </ion-tab-button>
-    <ion-tab-button tab="account">
-      <img [src]="accountSVG" alt="plays" width="30px" height="30px">
+    <ion-tab-button tab="account" [routerLink]="['/home/system/account']">
+      <img [src]="accountSVG" alt="plays" width="30px" height="30px" />
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>

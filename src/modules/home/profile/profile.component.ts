@@ -119,6 +119,6 @@ export class ProfileComponent implements OnInit {
   }
 
   backSteep() {
-    this.navigate.navigate(['/home/system']);
+    this.navigate.navigate(['/home/system/message']);
   }
 }

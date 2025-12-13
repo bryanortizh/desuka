@@ -78,6 +78,6 @@ export class ChatComponent {
   }
   
   backSteep() {
-    this.navigate.navigate(['/home/system']);
+    this.navigate.navigate(['/home/system/message']);
   }
 }
