@@ -21,8 +21,10 @@ import { ChatComponent } from './home/chat-general/chat/chat.component';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { ConversationComponent } from './home/chat-general/conversation/conversation.component';
 import { ProfileComponent } from './home/profile/profile.component';
+import { environment } from 'src/environments/environment';
+
 const config: SocketIoConfig = { 
-  url: 'http://localhost:3000', 
+  url: environment.apiUrl, 
   options: {
     transports: ['websocket'],
     autoConnect: true,
