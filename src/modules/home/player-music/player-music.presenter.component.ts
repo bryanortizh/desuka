@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Capacitor } from '@capacitor/core';
 import { CapacitorMusicControls } from 'capacitor-music-controls-plugin';
@@ -39,18 +39,16 @@ export class PlayerMusicPresenterComponent {
   private audioContext?: AudioContext;
   private audioSource?: MediaElementAudioSourceNode;
   private gainNode?: GainNode;
-  
   private destroy$ = new Subject<void>();
 
   constructor(
     public imageService: ImageService,
     public capacitorService: CapacitorFunctionService,
-    public musicService: musicService
+    public musicService: musicService,
+    private cdr: ChangeDetectorRef
   ) {
-    // Detectar si estamos en web o móvil
     this.isWeb = Capacitor.getPlatform() === 'web';
     
-    // Inicializar Web Audio API para móviles
     if (!this.isWeb) {
       this.initWebAudio();
     }
@@ -58,17 +56,10 @@ export class PlayerMusicPresenterComponent {
 
   private initWebAudio() {
     try {
-      // Crear contexto de audio (compatible con iOS)
       this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-      
-      // Crear fuente desde el elemento audio
       this.audioSource = this.audioContext.createMediaElementSource(this.audio);
-      
-      // Crear nodo de ganancia (volumen)
       this.gainNode = this.audioContext.createGain();
       this.gainNode.gain.value = this.volume / 100;
-      
-      // Conectar: audio -> gainNode -> destino (altavoces)
       this.audioSource.connect(this.gainNode);
       this.gainNode.connect(this.audioContext.destination);
     } catch (error) {
@@ -87,6 +78,7 @@ export class PlayerMusicPresenterComponent {
         this.audio.load();
         this.isPlaying = true;
         this.capacitorService.barNotificationMusic(this.currentTrack);
+        this.cdr.detectChanges();
         if (this.isPlaying) this.audio.play();
       });
   }
@@ -95,7 +87,6 @@ export class PlayerMusicPresenterComponent {
     if (this.isPlaying) {
       this.audio.pause();
     } else {
-      // Reanudar contexto de audio en móviles (requerido por iOS)
       if (this.audioContext && this.audioContext.state === 'suspended') {
         this.audioContext.resume();
       }
@@ -112,10 +103,8 @@ export class PlayerMusicPresenterComponent {
     this.volume = parseInt(event.target.value);
     
     if (this.isWeb) {
-      // En web, usar el volumen nativo del elemento audio
       this.audio.volume = this.volume / 100;
     } else {
-      // En móviles, usar Web Audio API GainNode
       if (this.gainNode) {
         this.gainNode.gain.value = this.volume / 100;
       }

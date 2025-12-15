@@ -67,6 +67,13 @@ export class CapacitorFunctionService {
   }
 
   async barNotificationMusic(currentTrack: Track) {
+    const platform = Capacitor.getPlatform();
+
+    if (platform === 'web') {
+      this.setupMediaSession(currentTrack);
+      return;
+    }
+
     const relativePath = `images/${currentTrack.title.replace(
       /\s+/g,
       '_'
@@ -104,6 +111,29 @@ export class CapacitorFunctionService {
     })
       .then(() => {})
       .catch((e) => {});
+  }
+
+  setupMediaSession(currentTrack: Track) {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: currentTrack.title,
+        artist: currentTrack.artist,
+        album: currentTrack.title,
+        artwork: [
+          {
+            src: currentTrack.coverImage,
+            sizes: '512x512',
+            type: 'image/png',
+          },
+        ],
+      });
+    }
+  }
+
+  updateMediaSessionPlaybackState(isPlaying: boolean) {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+    }
   }
 
   async shareTrack(currentTrack: Track) {

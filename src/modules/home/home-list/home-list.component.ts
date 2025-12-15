@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import { IconsSVG } from 'src/core/enum/images-svg.enum';
@@ -16,7 +16,7 @@ import { FunctionPlayerService } from 'src/services/functionPlayer.service';
   standalone: false,
   providers: [HomeListPresenterComponent],
 })
-export class HomeListComponent {
+export class HomeListComponent implements OnInit, OnDestroy {
   searchForm!: FormGroup;
   iconSVGSearch = IconsSVG.searchSVG;
   iconSVGMicrophone = IconsSVG.microphoneSVG;
@@ -25,7 +25,8 @@ export class HomeListComponent {
   constructor(
     private formBuilder: FormBuilder,
     public presenter: HomeListPresenterComponent,
-    private functionPlayer: FunctionPlayerService
+    private functionPlayer: FunctionPlayerService,
+    private cdr: ChangeDetectorRef
   ) {
     this.searchForm = this.formBuilder.group({
       search: [''],
@@ -37,11 +38,10 @@ export class HomeListComponent {
     this.destroy$.complete();
   }
 
-  ionViewWillEnter() {
-    // Se ejecuta cada vez que se entra a esta vista
+  ngOnInit() {
     this.presenter.getMusic();
     this.presenter.getCategory();
-
+    this.cdr.detectChanges();
     this.functionPlayer
       .getMusicSearch$()
       .pipe(takeUntil(this.destroy$))
@@ -50,7 +50,11 @@ export class HomeListComponent {
 
         if (payload.musicList && typeof payload.index === 'number') {
           const oneMusic = payload.oneMusic ?? payload.musicList[payload.index];
-          this.presenter.sendTrackPlayer(payload.musicList, payload.index, oneMusic);
+          this.presenter.sendTrackPlayer(
+            payload.musicList,
+            payload.index,
+            oneMusic
+          );
           return;
         }
 
@@ -59,6 +63,12 @@ export class HomeListComponent {
           this.presenter.sendTrackPlayer(list, payload.index, payload.track);
         }
       });
+  }
+
+  ionViewWillEnter() {
+    this.presenter.getMusic();
+    this.presenter.getCategory();
+    this.cdr.detectChanges();
   }
 
   searchMusic() {

@@ -35,7 +35,6 @@ export class HomeListPresenterComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-
   }
 
   ngOnDestroy(): void {

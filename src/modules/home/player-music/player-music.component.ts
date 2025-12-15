@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { PlayerMusicPresenterComponent } from './player-music.presenter.component';
 import { Track } from 'src/core/interface/tracker.interface';
 import { CapacitorFunctionService } from 'src/services/capacitorFunction.service';
@@ -9,6 +9,7 @@ import { FunctionPlayerService } from 'src/services/functionPlayer.service';
   templateUrl: './player-music.component.html',
   styleUrls: ['./player-music.component.scss'],
   providers: [PlayerMusicPresenterComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
 export class PlayerMusicComponent implements OnInit, OnDestroy {
