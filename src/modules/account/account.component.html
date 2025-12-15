@@ -1,25 +1,31 @@
+<ion-loading class="custom-loading" [isOpen]="presenter.isLoading" message="Cerrando sesión..."></ion-loading>
+
 <div class="profile-container" *ngIf="presenter.userInfo">
   <div class="profile-header" *ngIf="presenter.userInfo.user as user">
     <div class="profile-avatar" [ngStyle]="{'background-image': 'url(' + user.avatar + ')'}"></div>
     <div class="profile-name">{{user.nickname}}</div>
     <div class="profile-email">{{user.email}}</div>
-    <button class="edit-button">Editar perfil</button>
-
+    <ng-container *ngIf="user.type_register === 2">
+      <button class="edit-button">Editar perfil</button>
+    </ng-container>
   </div>
 
   <div class="form-container" *ngIf="presenter.userInfo.user as user">
-    <label>Username</label>
-    <input type="text" class="input-field" [value]="user.nickname" />
+    <ng-container *ngIf="user.type_register === 2">
+      <label>Username</label>
+      <input type="text" class="input-field" [value]="user.nickname" />
 
-    <label>Contraseña</label>
-    <input type="password" class="input-field" autocomplete="off"  />
+      <label>Contraseña</label>
+      <input type="password" class="input-field" autocomplete="off" />
 
-    <label>Nueva contraseña</label>
-    <input type="password" class="input-field" autocomplete="off" />
-
-    <button class="save-button">Guardar cambios</button>
-
-    <button class="save-button mt-1" (click)="presenter.loggoutSession()">Cerrar sesión</button>
+      <label>Nueva contraseña</label>
+      <input type="password" class="input-field" autocomplete="off" />
+    </ng-container>
+    <ng-container *ngIf="user.type_register === 2">
+      <button class="save-button">Guardar cambios</button>
+    </ng-container>
+    <button class="save-button mt-3" (click)="presenter.loggoutSession()" [disabled]="presenter.isLoading">{{
+      presenter.isLoading ? 'Cerrando sesión...' : 'Cerrar sesión' }}</button>
 
   </div>
 </div>

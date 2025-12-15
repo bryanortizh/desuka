@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import { IconsSVG } from 'src/core/enum/images-svg.enum';
@@ -16,7 +16,7 @@ import { FunctionPlayerService } from 'src/services/functionPlayer.service';
   standalone: false,
   providers: [HomeListPresenterComponent],
 })
-export class HomeListComponent implements OnInit {
+export class HomeListComponent {
   searchForm!: FormGroup;
   iconSVGSearch = IconsSVG.searchSVG;
   iconSVGMicrophone = IconsSVG.microphoneSVG;
@@ -37,7 +37,8 @@ export class HomeListComponent implements OnInit {
     this.destroy$.complete();
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
+    // Se ejecuta cada vez que se entra a esta vista
     this.presenter.getMusic();
     this.presenter.getCategory();
 
@@ -45,7 +46,6 @@ export class HomeListComponent implements OnInit {
       .getMusicSearch$()
       .pipe(takeUntil(this.destroy$))
       .subscribe((payload) => {
-        console.log('payload', payload);
         if (!payload) return;
 
         if (payload.musicList && typeof payload.index === 'number') {

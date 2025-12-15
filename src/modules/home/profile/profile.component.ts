@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { ConversationCreate } from 'src/core/interface/conversation.interface';
@@ -11,7 +11,7 @@ import { authService } from 'src/services/auth.service';
   styleUrls: ['./profile.component.scss'],
   standalone: false,
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
   private destroy$ = new Subject<void>();
   loadingProfile: boolean = false;
   userInfo: ProfileUserResponse | null = null;
@@ -26,7 +26,8 @@ export class ProfileComponent implements OnInit {
     this.idUser = Number(this.route.snapshot.paramMap.get('userId') || '');
   }
 
-  ngOnInit() {
+  ionViewWillEnter() {
+    // Se ejecuta cada vez que se entra a esta vista
     this.getProfile();
   }
 
@@ -105,7 +106,6 @@ export class ProfileComponent implements OnInit {
     };
     this.authService.createConversation(dataBody).subscribe({
       next: (response) => {
-        console.log('Conversación creada:', response);
         if (response.created) {
           this.navigate.navigate(['home/chat/' + response.conversationId]);
         } else if (response.existed) {

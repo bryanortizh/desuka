@@ -1,5 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Capacitor } from '@capacitor/core';
 import { CapacitorMusicControls } from 'capacitor-music-controls-plugin';
 import { Subject, takeUntil } from 'rxjs';
 import { Icons } from 'src/core/enum/icons.enum';
@@ -32,13 +33,48 @@ export class PlayerMusicPresenterComponent {
   duration = 0;
   currentTrackIndex = 0;
   volume = 100;
+  isWeb = false;
+  
+  // Web Audio API para control de volumen en móviles
+  private audioContext?: AudioContext;
+  private audioSource?: MediaElementAudioSourceNode;
+  private gainNode?: GainNode;
+  
   private destroy$ = new Subject<void>();
 
   constructor(
     public imageService: ImageService,
     public capacitorService: CapacitorFunctionService,
     public musicService: musicService
-  ) {}
+  ) {
+    // Detectar si estamos en web o móvil
+    this.isWeb = Capacitor.getPlatform() === 'web';
+    
+    // Inicializar Web Audio API para móviles
+    if (!this.isWeb) {
+      this.initWebAudio();
+    }
+  }
+
+  private initWebAudio() {
+    try {
+      // Crear contexto de audio (compatible con iOS)
+      this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      
+      // Crear fuente desde el elemento audio
+      this.audioSource = this.audioContext.createMediaElementSource(this.audio);
+      
+      // Crear nodo de ganancia (volumen)
+      this.gainNode = this.audioContext.createGain();
+      this.gainNode.gain.value = this.volume / 100;
+      
+      // Conectar: audio -> gainNode -> destino (altavoces)
+      this.audioSource.connect(this.gainNode);
+      this.gainNode.connect(this.audioContext.destination);
+    } catch (error) {
+      console.error('Error al inicializar Web Audio API:', error);
+    }
+  }
 
   async loadTrack(playlist: Track[]) {
     this.playlist = playlist;
@@ -59,6 +95,10 @@ export class PlayerMusicPresenterComponent {
     if (this.isPlaying) {
       this.audio.pause();
     } else {
+      // Reanudar contexto de audio en móviles (requerido por iOS)
+      if (this.audioContext && this.audioContext.state === 'suspended') {
+        this.audioContext.resume();
+      }
       this.audio.play();
     }
     this.isPlaying = !this.isPlaying;
@@ -70,7 +110,16 @@ export class PlayerMusicPresenterComponent {
 
   onVolumeChange(event: any) {
     this.volume = parseInt(event.target.value);
-    this.audio.volume = this.volume / 100;
+    
+    if (this.isWeb) {
+      // En web, usar el volumen nativo del elemento audio
+      this.audio.volume = this.volume / 100;
+    } else {
+      // En móviles, usar Web Audio API GainNode
+      if (this.gainNode) {
+        this.gainNode.gain.value = this.volume / 100;
+      }
+    }
   }
 
   nextTrack() {

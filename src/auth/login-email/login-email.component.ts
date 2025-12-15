@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Form, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { TypeRegister } from 'src/core/enum/user_register.enum';
 import { loginUser } from 'src/core/interface/register.interface';
 import { authService } from 'src/services/auth.service';
-import { ErrorHandlerService } from 'src/services/errorHandler.service';
 
 @Component({
   selector: 'app-login-email',
@@ -18,15 +17,14 @@ export class LoginEmailComponent implements OnInit {
   destroy$ = new Subject<void>();
   invitedUser: TypeRegister = TypeRegister.INVITED;
 
-  constructor(
-    private navigate: Router,
-    private authService: authService,
-    private errorHandler: ErrorHandlerService
-  ) {}
+  constructor(private navigate: Router, private authService: authService) {}
 
   formUser: FormGroup = new FormGroup({
-    email: new FormControl('example@example.com', [Validators.email, Validators.required]),
-    password: new FormControl('Invitado', Validators.required),
+    email: new FormControl('bryanortiz156@hotmail.com', [
+      Validators.email,
+      Validators.required,
+    ]),
+    password: new FormControl('123', Validators.required),
   });
 
   ngOnInit() {}
@@ -61,7 +59,6 @@ export class LoginEmailComponent implements OnInit {
         },
         error: (err) => {
           this.disabledButton = false;
-          console.error(err);
         },
       });
   }

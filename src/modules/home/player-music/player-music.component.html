@@ -27,6 +27,7 @@
       }}</span><br />
   </div>
 
+  <!-- Control de volumen funciona en web y móviles usando Web Audio API -->
   <div class="volume-control">
     <i class="material-icons volume-icon" >{{ presenter.volume === 0 ? 'volume_off' : presenter.volume < 50 ? 'volume_down' : 'volume_up' }}</i>
     <input type="range" min="0" max="100" [value]="presenter.volume" class="volume-slider"

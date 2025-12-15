@@ -87,7 +87,6 @@ export class SearchBoxComponent implements OnInit {
   getMusicById(id: number) {
     this.serviceMusic.getMusicbyId(id).subscribe({
       next: (music) => {
-        console.log('Música obtenida por ID:', music);
         try {
           this.navigator.navigate(['home/system/home']);
           this.functionService.setMusicSearch({
@@ -108,7 +107,6 @@ export class SearchBoxComponent implements OnInit {
   }
 
   enterItem(item: SearchGeneralResponse) {
-    console.log(item);
     if (item.type === 'audio') {
       this.getMusicById(item.id);
     }

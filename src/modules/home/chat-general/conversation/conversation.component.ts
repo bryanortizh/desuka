@@ -10,7 +10,7 @@ import { ChatService } from 'src/services/chat.service';
   styleUrls: ['./conversation.component.scss'],
   standalone: false,
 })
-export class ConversationComponent implements OnInit {
+export class ConversationComponent {
   userId = Number(localStorage.getItem('userId'));
   private destroy$ = new Subject<void>();
 
@@ -55,7 +55,7 @@ export class ConversationComponent implements OnInit {
     },
   ];
   chats: Conversation[] = [];
-  ngOnInit() {
+  ionViewWillEnter() {
     this.getConversation();
     this.chatService.userjoinConversation(this.userId);
     this.chatService.listenForMessagesforConversation().subscribe((data) => {
@@ -85,6 +85,6 @@ export class ConversationComponent implements OnInit {
     this.destroy$.next();
     this.destroy$.complete();
     this.destroy$.unsubscribe();
-    this.userId = 0
+    this.userId = 0;
   }
 }

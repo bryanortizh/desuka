@@ -1,18 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AccountPresenterComponent } from './account.presenter.component';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss'],
   providers: [AccountPresenterComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class AccountComponent implements OnInit {
-  constructor(public presenter: AccountPresenterComponent) {}
+export class AccountComponent {
+  constructor(public presenter: AccountPresenterComponent) {
+  }
 
-  ngOnInit() {
+  ionViewWillEnter() {
+    // Se ejecuta cada vez que se entra a esta vista
     this.presenter.getUserInfo();
+  }
+
+  ngOnDestroy() {
+    this.presenter.ngOnDestroy();
   }
 }
