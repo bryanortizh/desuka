@@ -20,7 +20,7 @@ import { musicService } from 'src/services/music.service';
   standalone: false,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeListPresenterComponent implements OnInit {
+export class HomeListPresenterComponent {
   playlist: Track[] = [];
   indexMusic: number = 0;
   showCompleteMusic: boolean = false;
@@ -33,9 +33,6 @@ export class HomeListPresenterComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private musicService: musicService,
   ) {}
-
-  ngOnInit() {
-  }
 
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -103,6 +100,7 @@ export class HomeListPresenterComponent implements OnInit {
       .subscribe({
         next: (results) => {
           this.searchResults = results;
+          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error('Error al buscar música:', err);
@@ -117,6 +115,7 @@ export class HomeListPresenterComponent implements OnInit {
       .subscribe({
         next: (results) => {
           this.listCategory = results;
+          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error('Error al buscar música:', err);
